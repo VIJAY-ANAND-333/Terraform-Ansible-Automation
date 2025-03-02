@@ -1,11 +1,11 @@
 # Dynamic AWS EC2 Provisioning with Terraform and Ansible
 
-Automated provisioning of an AWS EC2 instance with EBS storage and configuration of a web server stack.
+Fully automated EC2 setup with EBS storage and a web server stack, integrated with Terraform and Ansible.
 
 ## Overview
-- **Terraform**: Provisions an EC2 instance with dynamic inputs (region, SSH key, instance name) and attaches an EBS volume for scalable storage.
-- **Ansible**: Configures the server with Docker, Docker Compose, Nginx, and Certbot, ready for web app deployment.
-- **Purpose**: Streamlines server setup for rapid, repeatable deployments.
+- **Terraform**: Provisions an AWS EC2 instance with dynamic inputs (region, SSH key, instance name) and an EBS volume, then triggers Ansible automatically.
+- **Ansible**: Configures Docker, Docker Compose, Nginx, and Certbot using an inventory file updated by Terraform.
+- **Purpose**: End-to-end automation for rapid, scalable web server deployment.
 
 ## Tech Stack
 - Terraform
@@ -15,25 +15,26 @@ Automated provisioning of an AWS EC2 instance with EBS storage and configuration
 
 ## Features
 - **Dynamic Inputs**: Customize region, key pair, and instance name at runtime.
-- **EBS Integration**: Adds persistent storage to the EC2 instance.
-- **Web-Ready**: Installs a complete stack for hosting applications with SSL support.
+- **EBS Storage**: Adds persistent volume to the EC2 instance.
+- **Integrated Automation**: Terraform updates `hosts.ini` with the EC2 IP and runs Ansible—no manual steps.
+- **Web-Ready**: Full stack for hosting apps with SSL support.
 
 ## Setup Instructions
-1. **Terraform**:
+1. **Prerequisites**:
+   - Terraform and Ansible installed locally.
+   - AWS CLI configured with credentials.
+   - SSH key pair in AWS (e.g., `my-key.pem`).
+2. **Run**:
    - Initialize: `terraform init`
    - Apply: `terraform apply` (prompts for region, key_name, instance_name)
-   - Output: Public IP of the EC2 instance
-2. **Ansible**:
-   - Update `ansible/hosts.ini` with the EC2 IP.
-   - Run: `ansible-playbook -i ansible/hosts.ini ansible/playbook.yml`
-3. **Verify**: SSH into the instance and check:
+3. **Verify**: SSH in (`ssh -i ~/.ssh/my-key.pem ubuntu@<public-ip>`):
    - `docker --version`
    - `nginx -v`
    - `certbot --version`
 
 ## Outcome
-- Server setup time reduced from manual hours to minutes.
-- Ready-to-deploy environment for web applications with SSL capability.
+- Server setup from scratch to fully configured in one command.
+- Streamlined automation reduces deployment time to minutes.
 
 ## Screenshots
 ![Server Setup](./server_setup.png)
