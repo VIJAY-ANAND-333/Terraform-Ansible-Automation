@@ -39,26 +39,38 @@ resource "aws_volume_attachment" "ebs_attachment" {
   instance_id = aws_instance.web.id
 }
 
-resource "null_resource" "ansible_nginx" {
+resource "null_resource" "update_inventory" {
   depends_on = [aws_instance.web]
 
   provisioner "local-exec" {
     command = <<EOT
-      sleep 100  # Giving extra time for instance setup
-      ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ${aws_instance.web.public_ip}, -u ubuntu \
-      --private-key ${var.key_path} Ansible/nginx-certbot-playbook.yml
+      echo "${aws_instance.web.public_ip}" > ../ansible/hosts.ini
+    EOT
+  }
+}
+
+
+resource "null_resource" "ansible_nginx" {
+  depends_on = [aws_instance.web, null_resource.update_inventory]
+
+  provisioner "local-exec" {
+    command = <<EOT
+      sleep 100
+      ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ../ansible/hosts.ini -u ubuntu \
+      --private-key ${var.key_path} ../ansible/nginx-certbot-playbook.yml
     EOT
   }
 }
 
 resource "null_resource" "ansible_docker" {
-  depends_on = [aws_instance.web]
+  depends_on = [aws_instance.web, null_resource.update_inventory]
 
   provisioner "local-exec" {
     command = <<EOT
-      sleep 100  # Giving extra time for instance setup
-      ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ${aws_instance.web.public_ip}, -u ubuntu \
-      --private-key ${var.key_path} Ansible/docker-playbook.yml
+      sleep 100
+      ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ../ansible/hosts.ini -u ubuntu \
+      --private-key ${var.key_path} ../ansible/docker-playbook.yml
     EOT
   }
 }
+
