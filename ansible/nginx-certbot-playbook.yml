@@ -22,8 +22,8 @@
       apt:
         name:
           - certbot
-          - python3-certbot-nginx  # For automatic Nginx integration
-          - python3-certbot-apache # If using Apache
+          - python3-certbot-nginx
+
         state: present
 
     - name: Verify Certbot installation
