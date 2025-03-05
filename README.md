@@ -24,7 +24,7 @@ Fully automated EC2 setup with EBS storage and a web server stack, integrated wi
 │   ├── hosts.ini          
 │   ├── install.yml        
 │   └── configure.yml      
-├── terraform/
+├── terraform/    
 │   ├── main.tf         
 │   ├── providers.tf       
 │   ├── var.tf             
