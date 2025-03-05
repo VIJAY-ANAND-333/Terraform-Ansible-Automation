@@ -20,7 +20,7 @@ Fully automated EC2 setup with EBS storage and a web server stack, integrated wi
 - **Web-Ready**: Full stack for hosting apps with SSL support.
 
 ## Project Structure
-├── ansible/
+├── ansible/      
 │   ├── hosts.ini          
 │   ├── install.yml        
 │   └── configure.yml      
