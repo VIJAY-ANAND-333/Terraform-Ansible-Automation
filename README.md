@@ -33,10 +33,17 @@ Fully automated EC2 setup with EBS storage and a web server stack, integrated wi
 
 
 ## Setup Instructions
-1. **Prerequisites**:
-   - Terraform and Ansible installed locally.
-   - AWS CLI configured with credentials (`aws configure`).
-   - SSH key pair in AWS (e.g., `my-key.pem`).
+1. **Dependencies**
+   - **Terraform**: Version 1.0.0 or later
+   - **Install**: [Official Terraform Installation Guide](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+   - **Ansible**: Version 2.9.0 or later
+   - **Install**: [Official Ansible Installation Guide](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+   - **AWS CLI**: Version 2.x
+   - **Install**: [AWS CLI Installation Guide](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
+   - **Configure**: Run `aws configure` with your AWS Access Key, Secret Key, and default region.
+   - **SSH Key Pair**: An SSH key pair uploaded to AWS (e.g., `my-key.pem`)
+   - **Generate**: `ssh-keygen -t rsa -b 4096 -f ~/.ssh/my-key`
+   - **Upload**: Upload the public key to AWS EC2 Key Pairs in your desired region.
 2. **Run**:
    - Navigate: `cd terraform`
    - Initialize: `terraform init`
