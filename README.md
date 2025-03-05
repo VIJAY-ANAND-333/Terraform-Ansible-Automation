@@ -19,22 +19,41 @@ Fully automated EC2 setup with EBS storage and a web server stack, integrated wi
 - **Integrated Automation**: Terraform updates `hosts.ini` with the EC2 IP and runs Ansible—no manual steps.
 - **Web-Ready**: Full stack for hosting apps with SSL support.
 
+## Project Structure
+├── ansible/
+│   ├── hosts.ini          
+│   ├── install.yml        
+│   └── configure.yml      
+├── terraform/
+│   ├── main.tf
+│   ├── providers.tf       
+│   ├── var.tf             
+│   └── output.tf          
+└── README.md
+
+
 ## Setup Instructions
 1. **Prerequisites**:
    - Terraform and Ansible installed locally.
-   - AWS CLI configured with credentials.
+   - AWS CLI configured with credentials (`aws configure`).
    - SSH key pair in AWS (e.g., `my-key.pem`).
 2. **Run**:
+   - Navigate: `cd terraform`
    - Initialize: `terraform init`
-   - Apply: `terraform apply` (prompts for region, key_name, instance_name)
-3. **Verify**: SSH in (`ssh -i ~/.ssh/my-key.pem ubuntu@<public-ip>`):
-   - `docker --version`
-   - `nginx -v`
-   - `certbot --version`
+   - Apply: `terraform apply` (prompts for `region`, `key_name`, `instance_name`)
+3. **Verify**:
+   - SSH in: `ssh -i ~/.ssh/my-key.pem ubuntu@<public-ip>`
+   - Check:
+     - `docker --version`
+     - `nginx -v`
+     - `certbot --version`
 
 ## Outcome
 - Server setup from scratch to fully configured in one command.
 - Streamlined automation reduces deployment time to minutes.
+
+## Cleanup
+- Destroy resources: `cd terraform && terraform destroy`
 
 ## Screenshots
 ![Server Setup](./server_setup.png)
