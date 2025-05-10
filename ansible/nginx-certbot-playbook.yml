@@ -1,0 +1,36 @@
+---
+- name: Install and Configure Nginx
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Start Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Install Certbot and Dependencies
+      apt:
+        name:
+          - certbot
+          - python3-certbot-nginx
+
+        state: present
+
+    - name: Verify Certbot installation
+      command: certbot --version
+      register: certbot_version
+      changed_when: false
+
+    - name: Display Certbot version
+      debug:
+        msg: "Certbot installed successfully. Version: {{ certbot_version.stdout }}"
